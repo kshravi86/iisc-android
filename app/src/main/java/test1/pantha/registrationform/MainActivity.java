@@ -49,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
        ;
 
 
+        button2=(Button)findViewById(R.id.button1);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                DownloadInfoOfWeatherNew task=new DownloadInfoOfWeatherNew();
+                task.execute();
+            }
+        });
+
+
 
     }
 
@@ -133,6 +145,89 @@ return null;
 
 
         }
+
+
+
+
+
+    class DownloadInfoOfWeatherNew extends AsyncTask<String, Void, String> {
+
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+
+            Log.e("murugan18", "calling API");
+
+
+
+
+
+
+
+            OkHttpClient client = new OkHttpClient();
+            //String path=cpFiles(mFilePath);
+
+
+
+
+
+
+
+
+
+            RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+
+
+
+                    .addFormDataPart("email", "send")
+
+                    .build();
+
+
+
+
+            Request request = new Request.Builder().url("http://192.168.43.41:9000/stop")
+                    .post(requestBody).build();
+
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String jsonData = null;
+            try {
+                jsonData = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            final Response finalResponse = response;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, finalResponse.body().toString(),
+                            Toast.LENGTH_LONG).show();
+
+
+                }
+            });
+
+
+
+            return null;
+        }
+
+
+
+
+
+
+
+    }
 
 
 }
