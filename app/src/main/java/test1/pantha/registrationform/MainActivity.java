@@ -110,10 +110,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-          runOnUiThread(new Runnable() {
+            final Response finalResponse = response;
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(MainActivity.this, "hello",
+                    Toast.makeText(MainActivity.this, finalResponse.body().toString(),
                             Toast.LENGTH_LONG).show();
 
 
